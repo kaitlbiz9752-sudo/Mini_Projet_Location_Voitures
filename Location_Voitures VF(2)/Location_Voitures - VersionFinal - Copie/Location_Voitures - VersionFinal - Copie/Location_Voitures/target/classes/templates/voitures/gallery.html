@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Galerie de Voitures - Location Voitures</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 4rem 0;
+            color: white;
+            text-align: center;
+        }
+
+        .car-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            overflow: hidden;
+            height: 100%;
+            background: white;
+        }
+
+        .car-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .car-image-container {
+            position: relative;
+            height: 280px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .car-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .car-image-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 4rem;
+        }
+
+        .car-card-body {
+            padding: 1.5rem;
+        }
+
+        .car-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .car-price {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .navbar {
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        }
+
+        .section-title {
+            color: #667eea;
+            font-weight: bold;
+            margin: 3rem 0 2rem;
+        }
+    </style>
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand text-white" href="/"><i class="fas fa-car-side"></i> Location Voitures</a>
+        <div class="navbar-nav ms-auto">
+            <a class="nav-link text-white" href="/"><i class="fas fa-home"></i> Accueil</a>
+            <a class="nav-link text-white active" href="/gallery"><i class="fas fa-images"></i> Galerie</a>
+            <a class="nav-link text-white" href="/voitures"><i class="fas fa-list"></i> Voitures</a>
+            <a class="nav-link text-white" href="/statistics"><i class="fas fa-chart-bar"></i> Statistiques</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="container">
+        <h1 class="display-4 mb-3"><i class="fas fa-images"></i> Notre Collection</h1>
+        <p class="lead">Découvrez notre flotte de véhicules disponibles pour location</p>
+        <span class="badge bg-light text-dark px-3 py-2" style="font-size: 1rem;">
+            <i class="fas fa-car"></i> <span th:text="${voitures.size()}">0</span> voitures disponibles
+        </span>
+    </div>
+</div>
+
+<div class="container my-5">
+    <form class="row g-3 mb-4" method="get" action="/gallery">
+        <div class="col-md-3">
+            <label class="form-label fw-bold"><i class="fas fa-layer-group"></i> Segment</label>
+            <select class="form-select" name="segment">
+                <option th:value="''" th:selected="${segment == null || segment.isEmpty()}">Tous</option>
+                <option th:value="'Compact'" th:selected="${segment == 'Compact'}">Compact</option>
+                <option th:value="'SUV'" th:selected="${segment == 'SUV'}">SUV</option>
+                <option th:value="'Berline'" th:selected="${segment == 'Berline'}">Berline</option>
+                <option th:value="'Luxe'" th:selected="${segment == 'Luxe'}">Luxe</option>
+                <option th:value="'Utilitaire'" th:selected="${segment == 'Utilitaire'}">Utilitaire</option>
+                <option th:value="'Sport'" th:selected="${segment == 'Sport'}">Sport</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label class="form-label fw-bold"><i class="fas fa-toggle-on"></i> Disponibilité</label>
+            <select class="form-select" name="disponible">
+                <option th:value="''" th:selected="${disponible == null}">Toutes</option>
+                <option th:value="'true'" th:selected="${disponible != null and disponible}">Disponible</option>
+                <option th:value="'false'" th:selected="${disponible != null and !disponible}">Indisponible</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label fw-bold"><i class="fas fa-calendar-day"></i> Date début</label>
+            <input class="form-control" type="date" name="dateDebut" th:value="${dateDebut}" />
+        </div>
+        <div class="col-md-3">
+            <label class="form-label fw-bold"><i class="fas fa-calendar-check"></i> Date fin</label>
+            <input class="form-control" type="date" name="dateFin" th:value="${dateFin}" />
+        </div>
+        <div class="col-md-2">
+            <label class="form-label fw-bold"><i class="fas fa-info-circle"></i> Statut</label>
+            <select class="form-select" name="statut">
+                <option th:value="''" th:selected="${statut == null || statut.isEmpty()}">Tous</option>
+                <option th:value="'CONFIRME'" th:selected="${statut == 'CONFIRME'}">Confirmé</option>
+                <option th:value="'EN_COURS'" th:selected="${statut == 'EN_COURS'}">En cours</option>
+                <option th:value="'TERMINE'" th:selected="${statut == 'TERMINE'}">Terminé</option>
+                <option th:value="'ANNULE'" th:selected="${statut == 'ANNULE'}">Annulé</option>
+            </select>
+        </div>
+        <div class="col-12 d-flex gap-2">
+            <button type="submit" class="btn btn-primary"><i class="fas fa-filter"></i> Filtrer</button>
+            <a href="/gallery" class="btn btn-outline-secondary"><i class="fas fa-undo"></i> Réinitialiser</a>
+        </div>
+    </form>
+    <div th:if="${voitures == null || voitures.isEmpty()}" class="text-center">
+        <i class="fas fa-car-side" style="font-size: 5rem; color: #ccc;"></i>
+        <h3 class="text-muted mt-3">Aucune voiture disponible pour le moment</h3>
+        <p class="text-muted">Veuillez revenir plus tard</p>
+    </div>
+
+    <div class="row g-4" th:unless="${voitures == null || voitures.isEmpty()}">
+        <div class="col-md-4 col-lg-3" th:each="voiture : ${voitures}">
+            <div class="car-card">
+                <div class="car-image-container">
+                    <img th:if="${voiture.imageUrl != null && !voiture.imageUrl.isEmpty()}" 
+                         th:src="${voiture.imageUrl}" 
+                         class="car-image" 
+                         alt="voiture" />
+                    <div th:unless="${voiture.imageUrl != null && !voiture.imageUrl.isEmpty()}" 
+                         class="car-image-placeholder">
+                        <i class="fas fa-car"></i>
+                    </div>
+                </div>
+                <div class="car-card-body">
+                    <div class="car-badge" th:if="${voiture.disponible}">
+                        <i class="fas fa-check-circle"></i> Disponible
+                    </div>
+                    <div class="car-badge" th:unless="${voiture.disponible}" style="background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);">
+                        <i class="fas fa-times-circle"></i> Indisponible
+                    </div>
+                    <h5 class="fw-bold mb-2" th:text="${voiture.marque}">Marque</h5>
+                    <p class="text-muted mb-2" th:text="${voiture.segment}">Segment</p>
+                    <p class="mb-3" th:if="${voiture.description != null}" 
+                       th:text="${#strings.abbreviate(voiture.description, 100)}">Description</p>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="car-price" th:text="${voiture.prixJour + ' DH/jour'}">0 DH/jour</span>
+                    </div>
+                    <div class="text-muted small mb-3">
+                        <i class="fas fa-list-alt"></i> <span th:text="${voiture.immatriculation}">AAA-0000</span>
+                    </div>
+                    <a class="btn btn-primary w-100" th:href="@{/reservation/{id}(id=${voiture.id})}">
+                        <i class="fas fa-calendar-plus"></i> Réserver Maintenant
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="mt-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 2rem 0;">
+    <div class="container text-center text-white">
+        <i class="fas fa-car"></i> Location Voitures © 2025 - Tous droits réservés
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace Admin - Location Voitures</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --success-color: #43e97b;
+            --danger-color: #f5576c;
+            --info-color: #4facfe;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
+        }
+
+        .navbar {
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%) !important;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .nav-link {
+            transition: all 0.3s;
+            margin: 0 5px;
+            border-radius: 5px;
+        }
+
+        .nav-link:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .admin-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            overflow: hidden;
+            height: 100%;
+            border: none;
+        }
+
+        .admin-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+
+        .admin-card-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 1.5rem;
+        }
+
+        .icon-voitures {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+        }
+
+        .icon-clients {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .icon-locations {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        .icon-statistics {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: white;
+        }
+
+        .admin-card-body h3 {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .admin-card-body p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .btn-action {
+            padding: 0.75rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            padding: 4rem 0;
+            color: white;
+            text-align: center;
+            border-radius: 0 0 30px 30px;
+        }
+
+        .hero-section h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .stats-grid {
+            margin-top: -50px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+
+        .stat-card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-card-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .stat-card-label {
+            color: #666;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        footer {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%) !important;
+            margin-top: 4rem;
+        }
+    </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand text-white" href="/">
+            <i class="fas fa-shield-alt"></i> Espace Admin
+        </a>
+        <div class="navbar-nav ms-auto">
+            <a class="nav-link text-white active" href="/admin">
+                <i class="fas fa-home"></i> Dashboard
+            </a>
+            <a class="nav-link text-white" href="/voitures">
+                <i class="fas fa-list"></i> Voitures
+            </a>
+            <a class="nav-link text-white" href="/clients">
+                <i class="fas fa-users"></i> Clients
+            </a>
+            <a class="nav-link text-white" href="/locations">
+                <i class="fas fa-calendar-check"></i> Locations
+            </a>
+            <a class="nav-link text-white" href="/statistics">
+                <i class="fas fa-chart-bar"></i> Statistiques
+            </a>
+            <a class="nav-link text-white" href="/">
+                <i class="fas fa-globe"></i> Site Public
+            </a>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="container">
+        <h1><i class="fas fa-shield-alt"></i> Espace Administrateur</h1>
+        <p class="lead mb-4">Gérez votre système de location de voitures</p>
+    </div>
+</div>
+
+<!-- Stats -->
+<div class="container stats-grid">
+    <div class="row g-4 mb-5">
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-card-icon text-primary">
+                    <i class="fas fa-car"></i>
+                </div>
+                <div class="stat-card-number" th:text="${totalVoitures}">0</div>
+                <div class="stat-card-label">Total Voitures</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-card-icon text-danger">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-card-number" th:text="${totalClients}">0</div>
+                <div class="stat-card-label">Total Clients</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-card-icon text-info">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <div class="stat-card-number" th:text="${totalLocations}">0</div>
+                <div class="stat-card-label">Locations</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-card-icon text-success">
+                    <i class="fas fa-money-bill-wave"></i>
+                </div>
+                <div class="stat-card-number" th:text="${revenuTotal}">0</div>
+                <div class="stat-card-label">Revenu Total (DH)</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="container mb-5">
+    <h2 class="mb-4"><i class="fas fa-cog"></i> Actions Rapides</h2>
+    
+    <div class="row g-4">
+        <!-- Gestion Voitures -->
+        <div class="col-md-6 col-lg-3">
+            <div class="admin-card p-4">
+                <div class="text-center">
+                    <div class="admin-card-icon icon-voitures">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <div class="admin-card-body">
+                        <h3>Voitures</h3>
+                        <p>Gérer le parc automobile</p>
+                        <p class="text-muted small mb-3">
+                            <span th:text="${voituresDisponibles}">0</span> disponibles
+                            <br/>
+                            <span th:text="${voituresLouees}">0</span> louées
+                        </p>
+                        <a href="/voitures" class="btn btn-primary btn-action w-100">
+                            <i class="fas fa-arrow-right"></i> Gérer
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gestion Clients -->
+        <div class="col-md-6 col-lg-3">
+            <div class="admin-card p-4">
+                <div class="text-center">
+                    <div class="admin-card-icon icon-clients">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="admin-card-body">
+                        <h3>Clients</h3>
+                        <p>Gérer les clients</p>
+                        <p class="text-muted small mb-3">
+                            <span th:text="${totalClients}">0</span> clients actifs
+                        </p>
+                        <a href="/clients" class="btn btn-danger btn-action w-100">
+                            <i class="fas fa-arrow-right"></i> Gérer
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gestion Locations -->
+        <div class="col-md-6 col-lg-3">
+            <div class="admin-card p-4">
+                <div class="text-center">
+                    <div class="admin-card-icon icon-locations">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="admin-card-body">
+                        <h3>Locations</h3>
+                        <p>Suivre les locations</p>
+                        <p class="text-muted small mb-3">
+                            <span th:text="${totalLocations}">0</span> locations totales
+                        </p>
+                        <a href="/locations" class="btn btn-info btn-action w-100">
+                            <i class="fas fa-arrow-right"></i> Voir
+                        </a>
+                        <form th:action="@{/admin/generate-locations}" action="/admin/generate-locations" method="post" class="mt-2">
+                            <button type="submit" class="btn btn-outline-info btn-action w-100">
+                                <i class="fas fa-wand-magic-sparkles"></i> Générer des locations
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistiques -->
+        <div class="col-md-6 col-lg-3">
+            <div class="admin-card p-4">
+                <div class="text-center">
+                    <div class="admin-card-icon icon-statistics">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="admin-card-body">
+                        <h3>Statistiques</h3>
+                        <p>Analyses et rapports</p>
+                        <p class="text-muted small mb-3">
+                            Graphiques détaillés
+                        </p>
+                        <a href="/statistics" class="btn btn-success btn-action w-100">
+                            <i class="fas fa-arrow-right"></i> Voir
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="mt-auto py-3">
+    <div class="text-center text-white">
+        <small><i class="fas fa-copyright"></i> 2025 Location Voitures - Espace Admin</small>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
