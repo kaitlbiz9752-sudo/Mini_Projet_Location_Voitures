@@ -39,6 +39,58 @@ Sélection des dates de début et fin
 Calcul automatique du montant total
 Page de Confirmation : Confirmation visuelle de la réservation avec détails
 
+
+## Modèle de données :
+<img width="814" height="735" alt="image" src="https://github.com/user-attachments/assets/d170b98c-1ac3-4d72-8a2a-d5cea177ebb8" />
+
+
+## 🧾 Description du schéma de la base de données « Location de voitures »
+
+La base de données du projet Location de voitures est conçue pour gérer les informations relatives aux clients, aux véhicules et aux opérations de location.
+Elle repose sur une structure relationnelle simple mais cohérente, composée de trois entités principales : Client, Voiture et Location.
+Chaque entité est liée aux autres de manière à représenter fidèlement le fonctionnement d’un système de location automobile.
+
+**L’entité Client**
+
+L’entité Client regroupe toutes les informations concernant les personnes qui louent des voitures auprès de l’agence.
+Chaque client est identifié de manière unique par un identifiant (id).
+Elle contient également des données essentielles telles que le CIN, le nom et le numéro de téléphone du client.
+Grâce à cette entité, le système peut enregistrer et suivre les différents clients, même lorsqu’ils effectuent plusieurs locations au fil du temps.
+En effet, un client peut être associé à plusieurs contrats de location, mais chaque location appartient à un seul client.
+
+**L’entité Voiture**
+
+L’entité Voiture contient toutes les informations relatives au parc automobile disponible à la location.
+Chaque véhicule possède un identifiant unique (id), un prix journalier, un état de disponibilité, ainsi qu’une description comprenant la marque, le segment (catégorie), et le numéro d’immatriculation.
+Une voiture peut également être accompagnée d’une image illustrant son apparence.
+Cette entité permet donc de gérer efficacement les véhicules, de connaître leur statut (disponible ou non) et de calculer le coût d’une location selon la durée du contrat.
+Comme pour les clients, une voiture peut être concernée par plusieurs locations, mais chaque location ne concerne qu’un seul véhicule à la fois.
+
+**L’entité Location**
+
+L’entité Location représente l’opération de location proprement dite.
+Elle contient des informations telles que la date de début, la date de fin, le montant total à payer, et le statut de la location (par exemple : en cours, terminée, ou annulée).
+Cette entité établit un lien entre un client et une voiture, à travers deux clés étrangères (client_id et voiture_id).
+Elle constitue donc le cœur relationnel du système, reliant les informations clients et véhicules pour chaque transaction.
+Grâce à elle, le système peut retracer l’historique complet des locations, les durées, les montants et les états de chaque opération.
+
+**Relations entre les entités**
+
+La conception de la base de données suit une logique de relations un-à-plusieurs :
+
+Un client peut effectuer plusieurs locations au cours du temps.
+
+Une voiture peut être louée plusieurs fois, mais pas simultanément (en fonction de sa disponibilité).
+
+Chaque location associe un seul client à une seule voiture pour une période donnée.
+
+Ainsi, l’entité Location joue le rôle d’intermédiaire entre Client et Voiture, assurant la cohérence et la traçabilité des opérations.
+
+**Synthèse**
+
+En somme, cette base de données modélise de manière efficace le processus de gestion d’un service de location automobile :
+elle permet de gérer les clients, de suivre la disponibilité des voitures, et d’enregistrer toutes les opérations de location de manière détaillée et fiable.
+Les relations entre les entités garantissent la cohérence des données, tout en facilitant les requêtes nécessaires à la gestion quotidienne du système.
 ## 3. 💎 Design & Styles
 Bootstrap 5 : Framework moderne et responsive
 Font Awesome : Icônes professionnelles
@@ -51,7 +103,7 @@ Liste des Voitures : Tableau stylisé avec badges de statut
 Liste des Clients : Design cohérent avec le reste de l'application
 Liste des Locations : Affichage clair des réservations
 Statistiques : Graphiques interactifs (pie, bar, line charts)
-🔧 Modifications Techniques
+**🔧 Modifications Techniques**
 Controllers
 AdminController : Gestion du dashboard administrateur
 ReservationController : Gestion des réservations clients
