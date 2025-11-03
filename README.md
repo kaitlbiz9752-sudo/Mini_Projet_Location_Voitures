@@ -1,7 +1,9 @@
 
-# Lien de la vidéo descriptive
-
-https://drive.google.com/drive/folders/1AhTakR9BnM-jgUWkpZ9TMiMy0vKgd5cr?usp=sharing        
+ # Réalisée par 
+ **Aitlbiz Kaoutar**
+ # Encadrée par 
+ **LACHGAR Mohamed**
+ # ENS Marrakech
 
 #  🚗 Améliorations du Système de Location de Voitures
 
@@ -183,6 +185,11 @@ Base de données : MySQL
 Templates : Thymeleaf
 Frontend : Bootstrap 5 + Font Awesome + Chart.js
 Validation : Java Bean Validation
+
+
+# Démonstration
+
+https://drive.google.com/drive/folders/1AhTakR9BnM-jgUWkpZ9TMiMy0vKgd5cr?usp=sharing   
 
 
 
