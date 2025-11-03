@@ -77,17 +77,61 @@ Formulaires stylisés
 📱 Fonctionnalités
 Pour les Clients
 ✅ Parcourir la galerie de voitures
+
+
+
+
 ✅ Voir les détails (marque, segment, prix, description)
+
+
+
+
 ✅ Réserver une voiture
+
+
+
+
+
 ✅ Remplir le formulaire de réservation
+
+
+
+
+
 ✅ Recevoir une confirmation
+
+
+
+
 Pour l'Administrateur
+
+
+
 ✅ Accéder au dashboard avec statistiques
+
+
+
+
 ✅ Gérer les voitures (CRUD complet)
+
+
+
 ✅ Gérer les clients (CRUD complet)
+
+
+
 ✅ Voir les locations
+
+
+
 ✅ Consulter les statistiques et graphiques
+
+
+
 ✅ Voir les revenus totaux et mensuels
+
+
+
 🚀 Démarrage
 Démarrer l'application :
 
